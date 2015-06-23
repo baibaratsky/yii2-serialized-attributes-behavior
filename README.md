@@ -7,7 +7,7 @@ To attach the behavior put the following code in your model:
     public function behaviors()
    	{
    		return [
-   			'slug' => [
+   			'serializedAttributes' => [
    				'class' => SerializedAttributes::className(),
    				
    				// Define the attributes you want to be serialized
