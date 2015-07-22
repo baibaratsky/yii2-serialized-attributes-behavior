@@ -12,6 +12,10 @@ To attach the behavior put the following code in your model:
    				
    				// Define the attributes you want to be serialized
                 'attributes' => ['serializedData', 'moreSerializedData'],
+                
+                // Enable this option if your DB is not in UTF-8
+                // (more info at http://www.jackreichert.com/2014/02/02/handling-a-php-unserialize-offset-error/)
+                // 'encode' => true,
    			],
    		];
    	}

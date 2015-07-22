@@ -13,7 +13,16 @@ use yii\db\BaseActiveRecord;
  */
 class SerializedAttributes extends Behavior
 {
+    /**
+     * @var string[] Attributes you want to be serialized
+     */
     public $attributes = [];
+
+    /**
+     * @var bool Encode serialized data to protect them from corruption (when your DB is not in UTF-8)
+     * @see http://www.jackreichert.com/2014/02/02/handling-a-php-unserialize-offset-error/
+     */
+    public $encode = false;
 
     private $oldAttributes = [];
 
@@ -36,6 +45,9 @@ class SerializedAttributes extends Behavior
 
             if (is_array($this->owner->$attribute) && count($this->owner->$attribute) > 0) {
                 $this->owner->$attribute = serialize($this->owner->$attribute);
+                if ($this->encode) {
+                    $this->owner->$attribute = base64_encode($this->owner->$attribute);
+                }
             } elseif (empty($this->owner->$attribute)) {
                 $this->owner->$attribute = null;
             } else {
@@ -53,6 +65,9 @@ class SerializedAttributes extends Behavior
                 $this->owner->setAttribute($attribute, []);
                 $this->owner->setOldAttribute($attribute, []);
             } elseif (is_scalar($this->owner->$attribute)) {
+                if ($this->encode) {
+                    $this->owner->$attribute = base64_decode($this->owner->$attribute);
+                }
                 $value = @unserialize($this->owner->$attribute);
                 if ($value !== false) {
                     $this->owner->setAttribute($attribute, $value);
