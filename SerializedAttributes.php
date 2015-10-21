@@ -41,7 +41,9 @@ class SerializedAttributes extends Behavior
     public function serializeAttributes()
     {
         foreach ($this->attributes as $attribute) {
-            $this->owner->setOldAttribute($attribute, $this->oldAttributes[$attribute]);
+            if (isset($this->oldAttributes[$attribute])) {
+                $this->owner->setOldAttribute($attribute, $this->oldAttributes[$attribute]);
+            }
 
             if (is_array($this->owner->$attribute) && count($this->owner->$attribute) > 0) {
                 $this->owner->$attribute = serialize($this->owner->$attribute);
