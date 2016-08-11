@@ -45,13 +45,13 @@ class SerializedAttributes extends Behavior
                 $this->owner->setOldAttribute($attribute, $this->oldAttributes[$attribute]);
             }
 
-            if (is_array($this->owner->$attribute) && count($this->owner->$attribute) > 0) {
-                $this->owner->$attribute = serialize($this->owner->$attribute);
+            if (is_array($this->owner->{$attribute}) && count($this->owner->{$attribute}) > 0) {
+                $this->owner->$attribute = serialize($this->owner->{$attribute});
                 if ($this->encode) {
-                    $this->owner->$attribute = base64_encode($this->owner->$attribute);
+                    $this->owner->{$attribute} = base64_encode($this->owner->{$attribute});
                 }
-            } elseif (empty($this->owner->$attribute)) {
-                $this->owner->$attribute = null;
+            } elseif (empty($this->owner->{$attribute})) {
+                $this->owner->{$attribute} = null;
             } else {
                 throw new SerializeAttributeException($this->owner, $attribute);
             }
@@ -63,12 +63,12 @@ class SerializedAttributes extends Behavior
         foreach ($this->attributes as $attribute) {
             $this->oldAttributes[$attribute] = $this->owner->getOldAttribute($attribute);
 
-            if (empty($this->owner->$attribute)) {
+            if (empty($this->owner->{$attribute})) {
                 $this->owner->setAttribute($attribute, []);
                 $this->owner->setOldAttribute($attribute, []);
-            } elseif (is_scalar($this->owner->$attribute)) {
+            } elseif (is_scalar($this->owner->{$attribute})) {
                 if ($this->encode) {
-                    $this->owner->$attribute = base64_decode($this->owner->$attribute);
+                    $this->owner->{$attribute} = base64_decode($this->owner->{$attribute});
                 }
                 $value = @unserialize($this->owner->$attribute);
                 if ($value !== false) {
