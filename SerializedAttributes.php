@@ -35,6 +35,7 @@ class SerializedAttributes extends Behavior
             BaseActiveRecord::EVENT_AFTER_INSERT => 'deserializeAttributes',
             BaseActiveRecord::EVENT_AFTER_UPDATE => 'deserializeAttributes',
             BaseActiveRecord::EVENT_AFTER_FIND => 'deserializeAttributes',
+            BaseActiveRecord::EVENT_AFTER_REFRESH => 'deserializeAttributes',
         ];
     }
 
